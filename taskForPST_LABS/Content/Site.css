@@ -1,0 +1,211 @@
+﻿body {    
+    margin: 0 !important;
+    padding: 0 25px;
+    background-color: #d3d6d8;
+}
+.site-container {
+    background-color:  white;
+    font-family: Arial;
+    padding-bottom: 5px;
+}
+ul {
+    margin: 0;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+h1{
+     margin: 0;
+ }
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+.center {
+ text-align: center ;
+ width: 50%;
+ margin: 0 auto;
+    padding-top: 60px;
+    padding-bottom: 100px;
+}
+
+.btn {
+    max-width: 500px;
+  background: #c9ced1;
+  background-image: -webkit-linear-gradient(top, #54abed, #53a8e9);
+  background-image: -moz-linear-gradient(top, #54abed, #53a8e9);
+  background-image: -ms-linear-gradient(top, #54abed, #53a8e9);
+  background-image: -o-linear-gradient(top, #54abed, #53a8e9);
+  background-image: linear-gradient(to bottom, #54abed, #53a8e9);
+  
+  border: 1px solid #3b88c3;
+  
+   
+  color: white;
+  text-decoration: none;
+}
+
+
+.btn:hover {
+  background: #54abed;
+  background-image: -webkit-linear-gradient(top, #54abed, #3b88c3);
+  background-image: -moz-linear-gradient(top, #54abed, #3b88c3);
+  background-image: -ms-linear-gradient(top, #54abed, #3b88c3);
+  background-image: -o-linear-gradient(top, #54abed, #3b88c3);
+  background-image: linear-gradient(to bottom, #54abed, #3b88c3);
+  text-decoration: none;
+}
+
+.btn-table-link {
+  font-size: 22px;
+  padding: 30px 55px 30px 40px;
+  font-weight: bold;
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 15px;
+}
+
+.btn-reg {
+   font-size: 16px;
+  padding: 10px 15px 10px 10px; 
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+
+.navbar {
+    background: #28292a;
+    height: 50px;
+    border-radius: 0 0 10px 10px;
+}
+
+.nav {
+    padding-top: 10px;
+    list-style: none;
+}
+.nav li {
+    padding-left: 30px;
+    display: inline;
+}
+
+.navbar-nav li:first-child {
+    float: left;
+    font-size: 24px;
+}
+.navbar-nav li:nth-child(2) {
+    float: right;
+    padding-right: 60px;
+    padding-top: 5px;
+}
+
+.navbar-nav li:last-child {
+    padding-top: 5px;
+}
+
+.navbar-nav li:nth-child(2) {
+    float: right;
+    padding-right: 60px;
+    padding-top: 5px;
+}
+.navbar-nav li {
+    float: right;
+    font-family: Arial;
+}
+
+
+
+.navbar-nav li > a:visited{
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-nav li > a{
+    color: white;
+    text-decoration: none;
+}
+
+.fullname {
+    color: white;
+}
+.child-opener-image {
+            cursor: pointer;
+}
+
+.child-opener-image-column {
+            text-align: center;
+}
+
+.jtable-dialog-form {
+            min-width: 220px;
+}
+
+.jtable-dialog-form input[type="text"] {
+             min-width: 200px;
+}
+
+.child-opener-image {
+            cursor: pointer;
+			opacity: 0.5;
+}
+
+
+.child-opener-image:hover{
+		  opacity: 0.8;           
+}
+
+footer {
+    font-family: Arial;
+}
+
+.text-danger {
+    color: red;
+}
+
+
+.form-control {
+  width: 210px;
+  padding: 4px;
+  margin: 0;
+  outline: 0;
+  background-color: #fff;
+  border: 1px solid #e1e8ed;
+  border-radius: 3px;
+}
+.form-control:hover {
+    border: 1px solid #53a8e9;
+}
+
+.form-group {
+     margin-top: 5px;
+     margin-bottom: 10px; 
+}
+
+.form-horizontal {
+    margin-left: 20px;
+}
+
+.reg-btn-container {
+    margin-top: 15px;
+}
+
+.fieldset-brd-color {
+    border-color:#e2e2e2;
+    border-style: solid;
+}

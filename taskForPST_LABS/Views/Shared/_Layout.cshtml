@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+    <div class="site-container">
+        <div class="navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        
+                    }
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Вход", "Login", "Account")</li>
+                            <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                        }
+                        else
+                        {
+                            
+                            <li>@Html.ActionLink("Выход", "LogOff", "Account")</li>
+                            <li><span class="fullname"> Вы - @ViewBag.FullName</span></li>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year Тестовое задание</p>
+            </footer>
+        </div>
+    </div>
+
+
+@RenderSection("scripts", required: false)
+</body>
+</html>

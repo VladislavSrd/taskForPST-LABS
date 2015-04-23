@@ -1,0 +1,294 @@
+﻿@model taskForPST_LABS.DAL.Models.User
+
+@{
+    ViewBag.Title = "Таблицы пользователей и групп";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Таблицы пользователей и групп</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.10.0.min.js"></script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="~/Scripts/jtable/themes/jqueryui/jtable_jqueryui.css" rel="stylesheet" />
+
+<script src="~/Scripts/jtable/jquery.jtable.min.js"></script>
+<script src="~/Scripts/jtable/extensions/jquery.jtable.aspnetpagemethods.min.js"></script>
+<script src="~/Scripts/jtable/localization/jquery.jtable.ru.js"></script>
+<link href="~/Scripts/jtable/themes/lightcolor/gray/jtable.min.css" rel="stylesheet" />
+<div id="UserTableContainer"></div>
+
+<br />
+<br />
+
+<div id="GroupTableContainer"></div>
+<br />
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#UserTableContainer").jtable({
+            title: "Пользователи",
+            paging: true, //Enable paging
+            sorting: true, //Enable sorting
+            defaultSorting: 'Username ASC',
+            actions: {
+                listAction: '@Url.Action("UserList")',
+                deleteAction: '@Url.Action("DeleteUser")',
+                updateAction: '@Url.Action("UpdateUser")',
+                createAction: '@Url.Action("CreateUser")'
+            },
+            fields: {
+                UserId: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Username: {
+                    title: "Логин",
+                    width: '15%',
+                    inputClass: 'validate[required]'
+                },
+                Name: {
+                    title: 'Имя',
+                    width: '15%',
+                    inputClass: 'validate[required]'
+                },
+                Surname: {
+                    title: 'Фамилия',
+                    width: '15%',
+                    inputClass: 'validate[required]'
+                },
+                Lastname: {
+                    title: 'Отчество',
+                    width: '15%'
+                },
+                Password: {
+                    title: 'Пароль',
+                    type: 'password',
+                    list: false,
+                    inputClass: 'validate[required]'
+                },
+                Email: {
+                    title: 'Email address',
+                    inputClass: 'validate[required,custom[email]]'
+                },
+                UserGroups: {
+                    title: '',
+                    width: '5%',
+                    sorting: false,
+                    edit: false,
+                    create: false,
+                    listClass: 'child-opener-image-column',
+                    display: function (userData) {
+                        //Create an image that will be used to open child table
+                        var $img = $('<img class="child-opener-image" src="/Content/images/list_metro.png" title="Группы пользователя" />');
+                        //Open child table when user clicks the image
+                        $img.click(function () {
+                            $('#UserTableContainer').jtable('openChildTable',
+                                $img.closest('tr'),
+                                {
+                                    title: 'Группы пользователя - ' + userData.record.Name,
+                                    actions: {
+                                        listAction: '/Home/UserGroupsList?userId=' + userData.record.UserId,
+                                        deleteAction: '/Home/DeleteUserFromGroup',
+                                        createAction: function(postData) {
+                                            return $.Deferred(function($dfd) {
+                                                $.ajax({
+                                                    url: '/Home/AddUserInGroup?userId=' + userData.record.UserId,
+                                                    type: 'POST',
+                                                    dataType: 'json',
+                                                    data: postData,
+                                                    success: function(data) {
+                                                        $dfd.resolve(data);
+                                                    },
+                                                    error: function() {
+                                                        $dfd.reject();
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    },
+                                    fields: {
+                                        Id: {
+                                            key: true,
+                                            create: false,
+                                            edit: false,
+                                            list: false
+                                        },
+                                        GroupId: {
+                                            create: false,
+                                            edit: false,
+                                            list: false
+                                        },
+                                        GroupName: {
+                                            title: 'Название группы',
+                                            width: '60%',
+                                            inputClass: 'validate[required]',
+                                            options: '/Home/GetGroupNames',
+                                            edit: false
+                                        },
+                                        Read: {
+                                            title: 'Право на чтение',
+                                            width: '20%',
+                                            inputClass: 'validate[required]',
+                                            options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }],
+                                            create: false,
+                                            edit: false
+                                        },
+                                        Write: {
+                                            title: 'Право на запись',
+                                            width: '20%',
+                                            inputClass: 'validate[required]',
+                                            options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }],
+                                            create: false,
+                                            edit: false   
+                                        }
+                                    }
+                                }, function (data) { //opened handler
+                                    data.childTable.jtable('load');
+                                });
+                        });
+                        return $img;
+                    }
+
+                }
+            }
+        });
+
+        //Load student list from server
+        $("#UserTableContainer").jtable("load");
+    });
+
+
+    $(document).ready(function () {
+
+            $("#GroupTableContainer").jtable({
+                title: "Группы",
+                paging: false, //Enable paging
+                sorting: false, //Enable sorting
+                defaultSorting: 'Groupname ASC',
+                actions: {
+                    listAction: '@Url.Action("GroupList")',
+                    deleteAction: '@Url.Action("DeleteGroup")',
+                    updateAction: '@Url.Action("UpdateGroup")',
+                    createAction: '@Url.Action("CreateGroup")'
+                },
+                fields: {
+                    GroupId: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    GroupName: {
+                        title: "Название группы",
+                        width: '60%',
+                        inputClass: 'validate[required]'
+                        
+                    },
+                Read: {
+                    title: 'Чтение',
+                    width: '20%',
+                    inputClass: 'validate[required]',
+                    options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }],
+                    input: function (data) {
+                        if (data.record) {
+                            if (data.record.Read === true)
+                                return '<input type="checkbox" name="Read" checked value="true"/>';
+                            else 
+                                return '<input type="checkbox" name="Read" value="true"/>';
+                        } else {
+                            return '<input type="checkbox" name="Read" value="true"/>';
+                        }
+                    }
+                },
+                Write: {
+                    title: 'Запись',
+                    width: '20%',
+                    inputClass: 'validate[required]',
+                    options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }],
+                    input: function (data) {
+                        if (data.record) {
+                            if (data.record.Write === true)
+                                return '<input type="checkbox" name="Write" checked value="true"/>';
+                            else 
+                                return '<input type="checkbox" name="Write" value="true"/>';
+                        } else {
+                            return '<input type="checkbox" name="Write" value="true"/>';
+                        }
+
+                    }
+                }/*,                
+                UserGroups: {
+                    title: '',
+                    width: '5%',
+                    sorting: false,
+                    edit: false,
+                    create: false,
+                    listClass: 'child-opener-image-column',
+                    display: function (userData) {
+                        //Create an image that will be used to open child table
+                        var $img = $('<img class="child-opener-image" src="/Content/images/list_metro.png" title="Edit phone numbers" />');
+                        //Open child table when user clicks the image
+                        $img.click(function () {
+                            $('#StudentTableContainer').jtable('openChildTable',
+                                $img.closest('tr'),
+                                {
+                                    title: userData.record.Name + ' - Группы',
+                                    actions: {
+                                        listAction: '/Home/UserGroupsList?userId=' + userData.record.UserId,
+                                        deleteAction: '/Home/DeleteUserFromGroup',
+                                        updateAction: '/Demo/UpdateGroup',
+                                        createAction: '/Demo/CreatePhone?StudentId=' + userData.record.UserId
+                                    },
+                                    fields: {
+                                        Id: {
+                                            key: true,
+                                            create: false,
+                                            edit: false,
+                                            list: false
+                                        },
+                                        GroupId: {
+                                            create: false,
+                                            edit: false,
+                                            list: false
+                                        },
+                                        GroupName: {
+                                            title: 'Название группы',
+                                            width: '30%',
+                                            inputClass: 'validate[required]'
+                                        },
+                                        Read: {
+                                            title: 'Право на чтение',
+                                            width: '20%',
+                                            inputClass: 'validate[required]',
+                                            options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }]
+
+                                        },
+                                        Write: {
+                                            title: 'Право на запись',
+                                            width: '30%',
+                                            inputClass: 'validate[required]',
+                                            options: [{ Value: true, DisplayText: 'Есть' }, { Value: false, DisplayText: 'Нет' }]
+                                        }
+                                    }
+                                }, function (data) { //opened handler
+                                    data.childTable.jtable('load');
+                                });
+                        });
+                        return $img;
+                    }
+
+                }*/
+            }
+        });
+
+        //Load student list from server
+        $("#GroupTableContainer").jtable("load");
+    });
+
+</script>
